@@ -25,9 +25,9 @@ import (
  * Install or upgrade Rancher Manager
  * @remarks Deploy a Rancher Manager instance
  * @param hostname Hostname/URL to use for the deployment
- * @param channel Rancher channel to use (stable, latest)
+ * @param channel Rancher channel to use (stable, latest, prime, prime-devel)
  * @param version Rancher version to install (latest, devel)
- * @param headVersion Rancher head version to install (2.7, 2.8)
+ * @param headVersion Rancher head version to install (2.7, 2.8, 2.9)
  * @param ca CA to use (selfsigned, private)
  * @param proxy Define if a a proxy should be configured/used
  * @returns Nothing or an error
@@ -39,11 +39,22 @@ func DeployRancherManager(hostname, channel, version, headVersion, ca, proxy str
 		password = envPW
 	}
 	channelName := "rancher-" + channel
+	var chartRepo string
+
+	switch channel {
+	case "prime":
+		chartRepo = "https://charts.rancher.com/server-charts/latest"
+	case "prime-devel":
+		// See https://charts.optimus.rancher.io/server-charts/latest/index.yaml
+		chartRepo = "https://charts.optimus.rancher.io/server-charts/latest"
+	case "latest":
+		chartRepo = "https://releases.rancher.com/server-charts/latest"
+	case "stable":
+		chartRepo = "https://releases.rancher.com/server-charts/stable"
+	}
 
 	// Add Helm repository
-	err := kubectl.RunHelmBinaryWithCustomErr("repo", "add", channelName,
-		"https://releases.rancher.com/server-charts/"+channel,
-	)
+	err := kubectl.RunHelmBinaryWithCustomErr("repo", "add", channelName, chartRepo)
 	if err != nil {
 		return err
 	}
@@ -73,6 +84,13 @@ func DeployRancherManager(hostname, channel, version, headVersion, ca, proxy str
 				"--devel",
 				"--set", "rancherImageTag=v"+headVersion+"-head",
 			)
+			if headVersion == "2.7" {
+				flags = append(flags,
+					"--set", "rancherImage=stgregistry.suse.com/rancher/rancher",
+					"--set", "extraEnv[0].name=CATTLE_AGENT_IMAGE",
+					"--set", "extraEnv[0].value=stgregistry.suse.com/rancher/rancher-agent:v"+version,
+				)
+			}
 		} else if strings.Contains(version, "-rc") {
 			flags = append(flags,
 				"--devel",
