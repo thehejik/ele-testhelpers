@@ -15,6 +15,7 @@ limitations under the License.
 package rancher
 
 import (
+	"fmt"
 	"os"
 	"strings"
 
@@ -44,7 +45,7 @@ func DeployRancherManager(hostname, channel, version, headVersion, ca, proxy str
 	switch channel {
 	case "prime":
 		chartRepo = "https://charts.rancher.com/server-charts/prime"
-	case "prime-devel":
+	case "prime-devel", "devel-prime":
 		// See https://charts.optimus.rancher.io/server-charts/latest/index.yaml
 		chartRepo = "https://charts.optimus.rancher.io/server-charts/latest"
 	case "latest":
@@ -77,9 +78,14 @@ func DeployRancherManager(hostname, channel, version, headVersion, ca, proxy str
 		"--wait", "--wait-for-jobs",
 	}
 
+	// Debug
+	fmt.Println(channel)
+	fmt.Println(version)
+	fmt.Println(headVersion)
+
 	// Set specified version if needed
 	if version != "" && version != "latest" {
-		if version == "devel" || version == "prime-devel" {
+		if version == "devel" || version == "prime-devel" || version == "devel-prime" {
 			flags = append(flags,
 				"--devel",
 				"--set", "rancherImageTag=v"+headVersion+"-head",

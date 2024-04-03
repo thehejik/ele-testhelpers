@@ -27,4 +27,4 @@ require (
 	golang.org/x/tools v0.8.0 // indirect
 )
 
-replace github.com/rancher-sandbox/ele-testhelpers v0.0.0-20231206161614-20a517410736 => github.com/thehejik/ele-testhelpers v1.0.4
+replace github.com/rancher-sandbox/ele-testhelpers v0.0.0-20231206161614-20a517410736 => github.com/thehejik/ele-testhelpers v1.0.5
