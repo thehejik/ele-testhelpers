@@ -79,16 +79,17 @@ func DeployRancherManager(hostname, channel, version, headVersion, ca, proxy str
 
 	// Set specified version if needed
 	if version != "" && version != "latest" {
-		if version == "devel" {
+		if version == "devel" || version == "prime-devel" {
 			flags = append(flags,
 				"--devel",
 				"--set", "rancherImageTag=v"+headVersion+"-head",
 			)
+			// So far this is valid for 2.7 but maybe it will be needed for other versions in the future
 			if headVersion == "2.7" {
 				flags = append(flags,
 					"--set", "rancherImage=stgregistry.suse.com/rancher/rancher",
 					"--set", "extraEnv[0].name=CATTLE_AGENT_IMAGE",
-					"--set", "extraEnv[0].value=stgregistry.suse.com/rancher/rancher-agent:v"+version,
+					"--set", "extraEnv[0].value=stgregistry.suse.com/rancher/rancher-agent:v"+headVersion+"-head",
 				)
 			}
 		} else if strings.Contains(version, "-rc") {
