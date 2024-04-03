@@ -43,7 +43,7 @@ func DeployRancherManager(hostname, channel, version, headVersion, ca, proxy str
 
 	switch channel {
 	case "prime":
-		chartRepo = "https://charts.rancher.com/server-charts/latest"
+		chartRepo = "https://charts.rancher.com/server-charts/prime"
 	case "prime-devel":
 		// See https://charts.optimus.rancher.io/server-charts/latest/index.yaml
 		chartRepo = "https://charts.optimus.rancher.io/server-charts/latest"
