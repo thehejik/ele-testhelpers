@@ -79,9 +79,9 @@ func DeployRancherManager(hostname, channel, version, headVersion, ca, proxy str
 	}
 
 	// Debug
-	fmt.Println(channel)
-	fmt.Println(version)
-	fmt.Println(headVersion)
+	fmt.Println("Channel: " + channel)
+	fmt.Println("Version: " + version)
+	fmt.Println("HeadVersion: " + headVersion)
 
 	// Set specified version if needed
 	if version != "" && version != "latest" {
