@@ -39,13 +39,19 @@ func DeployRancherManager(hostname, channel, version, headVersion, ca, proxy str
 	if envPW := os.Getenv("RANCHER_PASSWORD"); envPW != "" {
 		password = envPW
 	}
+
+	// For prime/devel/2.x always use prime-devel channel
+	if channel == "prime" && version == "devel" {
+		channel = "prime-devel"
+	}
+
 	channelName := "rancher-" + channel
 	var chartRepo string
 
 	switch channel {
 	case "prime":
 		chartRepo = "https://charts.rancher.com/server-charts/prime"
-	case "prime-devel", "devel-prime":
+	case "prime-devel":
 		// See https://charts.optimus.rancher.io/server-charts/latest/index.yaml
 		chartRepo = "https://charts.optimus.rancher.io/server-charts/latest"
 	case "latest":
@@ -85,12 +91,12 @@ func DeployRancherManager(hostname, channel, version, headVersion, ca, proxy str
 
 	// Set specified version if needed
 	if version != "" && version != "latest" {
-		if version == "devel" || version == "prime-devel" || version == "devel-prime" {
+		if version == "devel" {
 			flags = append(flags,
 				"--devel",
 				"--set", "rancherImageTag=v"+headVersion+"-head",
 			)
-			// So far this is valid for 2.7 but maybe it will be needed for other versions in the future
+			// Devel image rancher:v2.7-head available only on stgregistry.suse.com
 			if headVersion == "2.7" {
 				flags = append(flags,
 					"--set", "rancherImage=stgregistry.suse.com/rancher/rancher",
