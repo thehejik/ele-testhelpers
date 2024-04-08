@@ -95,8 +95,8 @@ func DeployRancherManager(hostname, channel, version, headVersion, ca, proxy str
 			if headVersion == "2.7" {
 				flags = append(flags,
 					"--set", "rancherImage=stgregistry.suse.com/rancher/rancher",
-					"--set", "extraEnv[0].name=CATTLE_AGENT_IMAGE",
-					"--set", "extraEnv[0].value=stgregistry.suse.com/rancher/rancher-agent:v"+headVersion+"-head",
+					"--set", "extraEnv[1].name=CATTLE_AGENT_IMAGE",
+					"--set", "extraEnv[1].value=stgregistry.suse.com/rancher/rancher-agent:v"+headVersion+"-head",
 				)
 			}
 		} else if strings.Contains(version, "-rc") {
