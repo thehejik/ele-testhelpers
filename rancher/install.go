@@ -15,7 +15,6 @@ limitations under the License.
 package rancher
 
 import (
-	"fmt"
 	"os"
 	"strings"
 
@@ -53,6 +52,7 @@ func DeployRancherManager(hostname, channel, version, headVersion, ca, proxy str
 		chartRepo = "https://charts.rancher.com/server-charts/prime"
 	case "prime-devel":
 		// See https://charts.optimus.rancher.io/server-charts/latest/index.yaml
+		// The repo exist but there are no tarballs present
 		chartRepo = "https://charts.optimus.rancher.io/server-charts/latest"
 	case "latest":
 		chartRepo = "https://releases.rancher.com/server-charts/latest"
@@ -83,11 +83,6 @@ func DeployRancherManager(hostname, channel, version, headVersion, ca, proxy str
 		"--set", "useBundledSystemChart=true",
 		"--wait", "--wait-for-jobs",
 	}
-
-	// Debug
-	fmt.Println("Channel: " + channel)
-	fmt.Println("Version: " + version)
-	fmt.Println("HeadVersion: " + headVersion)
 
 	// Set specified version if needed
 	if version != "" && version != "latest" {

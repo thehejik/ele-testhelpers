@@ -7,6 +7,7 @@ require (
 	github.com/onsi/ginkgo/v2 v2.9.3
 	github.com/onsi/gomega v1.27.6
 	github.com/pkg/errors v0.9.1
+	github.com/rancher-sandbox/ele-testhelpers v0.0.0-20231206161614-20a517410736
 	go.uber.org/zap v1.24.0
 	golang.org/x/crypto v0.8.0
 	golang.org/x/net v0.9.0
