@@ -39,7 +39,7 @@ func DeployRancherManager(hostname, channel, version, headVersion, ca, proxy str
 		password = envPW
 	}
 
-	// For prime/devel/2.x always use prime-devel channel
+	// For prime/devel/2.x use prime-devel channel
 	if channel == "prime" && version == "devel" {
 		channel = "prime-devel"
 	}
