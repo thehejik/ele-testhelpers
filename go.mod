@@ -1,4 +1,4 @@
-module github.com/rancher-sandbox/ele-testhelpers
+module github.com/thehejik/ele-testhelpers
 
 go 1.20
 
@@ -7,6 +7,7 @@ require (
 	github.com/onsi/ginkgo/v2 v2.9.3
 	github.com/onsi/gomega v1.27.6
 	github.com/pkg/errors v0.9.1
+	github.com/rancher-sandbox/ele-testhelpers v0.0.0-20240412110134-536443696b01
 	go.uber.org/zap v1.24.0
 	golang.org/x/crypto v0.8.0
 	golang.org/x/net v0.9.0
@@ -26,3 +27,5 @@ require (
 	golang.org/x/text v0.9.0 // indirect
 	golang.org/x/tools v0.8.0 // indirect
 )
+
+replace github.com/rancher-sandbox/ele-testhelpers v0.0.0-20240412110134-536443696b01 => github.com/thehejik/ele-testhelpers v1.0.13
