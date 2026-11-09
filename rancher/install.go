@@ -87,7 +87,7 @@ func appendHeadFlags(flags *[]string) {
  * @param channel Rancher channel
  * @returns flags with correct values
  */
-func appendRCAlphaFlags(flags *[]string, version, channel, channelName string) error {
+func appendRCAlphaFlags(flags *[]string, version, channelName string) error {
 	// Search for the latest version if needed
 	if version == "latest" {
 		list, err := kubectl.RunHelmBinaryWithOutput("search", "repo", channelName, "--devel", "--versions")
@@ -264,7 +264,7 @@ func DeployRancherManager(hostname, channel, version, headVersion, ca, proxy str
 			flags = append(flags, "--version", version)
 		}
 	} else if strings.Contains(channel, "alpha") || strings.Contains(channel, "-rc") || strings.Contains(version, "-rc") {
-		if err := appendRCAlphaFlags(&flags, version, channel, channelName); err != nil {
+		if err := appendRCAlphaFlags(&flags, version, channelName); err != nil {
 			return err
 		}
 	} else if channel == "head" {
