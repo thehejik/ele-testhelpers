@@ -107,17 +107,17 @@ func appendRCAlphaFlags(flags *[]string, version, channel, channelName string) e
 		"--version", version,
 	)
 	// For rancher:2.x.y-rc from prime-rc and prime-alpha channel only
-	if strings.Contains(channel, "prime-") {
-		// Workaround 11/26: Rancher prime-rc/2.16-head is using new 'rancher-server' image from default chart values,
-		// other versions still require original stgregistry overrides for rancherImage and CATTLE_AGENT_IMAGE.
-		if !strings.HasPrefix(version, "2.16") {
-			*flags = append(*flags,
-				"--set", "rancherImage=stgregistry.suse.com/rancher/rancher",
-				"--set", "extraEnv[1].name=CATTLE_AGENT_IMAGE",
-				"--set", "extraEnv[1].value=stgregistry.suse.com/rancher/rancher-agent:v"+version,
-			)
-		}
-	}
+	// if strings.Contains(channel, "prime-") {
+	// 	// Workaround 11/26: Rancher prime-rc/2.16-head is using new 'rancher-server' image from default chart values,
+	// 	// other versions still require original stgregistry overrides for rancherImage and CATTLE_AGENT_IMAGE.
+	// 	if !strings.HasPrefix(version, "2.16") {
+	// 		*flags = append(*flags,
+	// 			"--set", "rancherImage=stgregistry.suse.com/rancher/rancher",
+	// 			"--set", "extraEnv[1].name=CATTLE_AGENT_IMAGE",
+	// 			"--set", "extraEnv[1].value=stgregistry.suse.com/rancher/rancher-agent:v"+version,
+	// 		)
+	// 	}
+	// }
 	return nil
 }
 
